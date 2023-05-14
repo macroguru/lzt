@@ -1,8 +1,8 @@
 from telethon import TelegramClient, events
 import random
 
-api_id = id
-api_hash = 'hash'
+api_id = id         # Сюда вводите айди
+api_hash = 'hash'   # Сюда хэш
 
 client = TelegramClient('tagall_session', api_id, api_hash)
 client.start()
