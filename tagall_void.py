@@ -1,8 +1,8 @@
 from telethon import TelegramClient, events
 import random
 
-api_id = id         # Сюда вводите айди
-api_hash = 'hash'   # Сюда хэш
+api_id = id # Сюда вводите айди
+api_hash = 'hash' # Сюда хэш
 
 client = TelegramClient('tagall_session', api_id, api_hash)
 client.start()
@@ -14,8 +14,14 @@ async def tag_all(event):
     
     chat = await event.get_chat()
     text = event.text.partition(' ')[2] if ' ' in event.text else 'Внимание всем!'
-    mentions = ''.join(f'[\u180E](tg://user?id={m.id}) ' for m in await event.client.get_participants(await event.get_chat()))
-    await client.send_message(chat, f'**{text}** {mentions}')
+    participants = await event.client.get_participants(await event.get_chat())
+    random.shuffle(participants) # Случайным образом перемешиваем участников чата
+    
+    for i in range(0, len(participants), 100):
+        mentions = ''.join(f'[\u180E](tg://user?id={m.id}) ' for m in participants[i:i+100])
+        await client.send_message(chat, f'**{text}** {mentions}')
+    
     await event.delete()
 
-client.run_until_disconnected()
+client.run_until_
+disconnected()
